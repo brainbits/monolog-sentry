@@ -1,0 +1,45 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
+stages:
+  - test
+  - release
+
+before_script:
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  - alias composer81="docker run --rm -v $(pwd):/app brainbitsgmbh/php:8.1-devtools composer"
+  - alias phpcs81="docker run --rm -v $(pwd):/app brainbitsgmbh/php:8.1-devtools phpcs"
+  - alias phpstan81="docker run --rm -v $(pwd):/app brainbitsgmbh/php:8.1-devtools phpstan"
+  - alias phpunit81="docker run --rm -v $(pwd):/app brainbitsgmbh/php:8.1-devtools php-pcov /usr/bin/phpunit"
+  - alias semantic-release="docker run --rm -v $(pwd):/app -e GITLAB_TOKEN=$GITLAB_TOKEN -e CI=true brainbitsgmbh/semantic-release:latest"
+
+test-81:
+  stage: test
+  script:
+    - composer81 update --no-ansi --no-interaction
+    - phpcs81
+    - phpstan81 analyze
+    - phpunit81 --colors=never --coverage-text
+
+test-81-lowest:
+  stage: test
+  script:
+    - composer81 update --no-ansi --no-interaction --prefer-lowest
+    - phpcs81
+    - phpstan81 analyze
+    - phpunit81 --colors=never --coverage-text
+
+semantic-release:
+  stage: release
+  script:
+    - semantic-release
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - CHANGELOG.md
+  only:
+    - master
+  except:
+    - schedules

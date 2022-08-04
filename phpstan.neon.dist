@@ -1,0 +1,24 @@
+parameters:
+    level: max
+    paths:
+        - src
+        - tests
+    ignoreErrors:
+        - '#Method .* has parameter .* with a nullable type declaration#'
+        - '#Method Brainbits\\MonologSentry\\SentryFactory::create\(\) has parameter .* with null as default value#'
+    inferPrivatePropertyTypeFromConstructor: true
+    excludePaths:
+        - src/Kernel.php
+        - src/Sentry/SentryHandler.php
+        - tests/Sentry/SentryHandlerTest.php
+    ergebnis:
+        classesAllowedToBeExtended:
+            - BGalati\MonologSentryHandler\SentryHandler
+            - Symfony\Component\HttpKernel\Bundle\Bundle
+            - Symfony\Component\HttpKernel\DependencyInjection\Extension
+
+includes:
+    - vendor/ergebnis/phpstan-rules/rules.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
+    - vendor/thecodingmachine/phpstan-strict-rules/phpstan-strict-rules.neon
