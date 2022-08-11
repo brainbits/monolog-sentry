@@ -21,7 +21,7 @@ use const PHP_VERSION;
 
 final class SentryFactory
 {
-    public function __construct(private readonly LoggerInterface $logger)
+    public function __construct(private readonly LoggerInterface $logger, string $symfonyEnv, bool $symfonyDebug)
     {
     }
 
@@ -39,7 +39,6 @@ final class SentryFactory
         ?array $inAppExclude = null,
         ?array $prefixes = null,
         ?array $tags = null,
-        ?LoggerInterface $logger = null,
     ): HubInterface {
         init([
             'dsn' => $dsn ?: null,
