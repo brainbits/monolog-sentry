@@ -12,10 +12,20 @@ use Psr\Log\LoggerInterface;
 use Sentry\Client;
 use Sentry\Dsn;
 use Sentry\Options;
+use Sentry\SentrySdk;
+use Sentry\State\Layer;
 use Sentry\Transport\HttpTransport;
 use Sentry\Transport\NullTransport;
 use Symfony\Component\HttpClient\HttplugClient;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+
+use function assert;
+use function is_array;
+
+use const PHP_OS;
+use const PHP_SAPI;
+use const PHP_VERSION;
 
 /**
  * @covers \Brainbits\MonologSentry\SentryFactory
@@ -26,7 +36,7 @@ final class SentryFactoryTest extends TestCase
     {
         $logger = $this->createMock(LoggerInterface::class);
 
-        $factory = new SentryFactory($logger);
+        $factory = new SentryFactory($logger, 'testEnv', true);
         $sentry = $factory->create(
             'https://dd860622c9c84f3fa0e83ec60786fb68@o523118.ingest.sentry.io/5635040',
             '_environment',
@@ -34,8 +44,7 @@ final class SentryFactoryTest extends TestCase
             ['_sourceDir'],
             ['_cacheDir', '_vendorDir'],
             ['_projectDir'],
-            ['foo' => 'bar'],
-            $logger,
+            ['test_string' => 'bar', 'test_number' => 123, 'test_flag' => true],
         );
 
         $client = $sentry->getClient();
@@ -67,13 +76,34 @@ final class SentryFactoryTest extends TestCase
 
         $httpClient = NSA::getProperty($httplugClient, 'client');
         self::assertInstanceOf(HttpClientInterface::class, $httpClient);
+
+        $hub = SentrySdk::getCurrentHub();
+        $stack = NSA::getProperty($hub, 'stack');
+        assert(is_array($stack));
+        assert($stack[0] instanceof Layer);
+        $layer = $stack[0];
+        $scope = $layer->getScope();
+        $tags = NSA::getProperty($scope, 'tags');
+
+        self::assertSame([
+            'php_uname' => PHP_OS,
+            'php_sapi' => PHP_SAPI,
+            'php_version' => PHP_VERSION,
+            'framework' => 'symfony',
+            'symfony_kernel_version' => Kernel::VERSION,
+            'symfony_environment' => 'testEnv',
+            'symfony_debug' => true,
+            'test_string' => 'bar',
+            'test_number' => 123,
+            'test_flag' => true,
+        ], $tags);
     }
 
     public function testMinimalParameters(): void
     {
         $logger = $this->createMock(LoggerInterface::class);
 
-        $factory = new SentryFactory($logger);
+        $factory = new SentryFactory($logger, 'testEnv', false);
         $sentry = $factory->create(null);
 
         $client = $sentry->getClient();
@@ -92,6 +122,23 @@ final class SentryFactoryTest extends TestCase
         self::assertSame([], $options->getInAppExcludedPaths());
         self::assertSame([], $options->getInAppIncludedPaths());
         self::assertSame([], $options->getPrefixes());
-        self::assertSame([], $options->getTags());
+
+        $hub = SentrySdk::getCurrentHub();
+        $stack = NSA::getProperty($hub, 'stack');
+        assert(is_array($stack));
+        assert($stack[0] instanceof Layer);
+        $layer = $stack[0];
+        $scope = $layer->getScope();
+        $tags = NSA::getProperty($scope, 'tags');
+
+        self::assertSame([
+            'php_uname' => PHP_OS,
+            'php_sapi' => PHP_SAPI,
+            'php_version' => PHP_VERSION,
+            'framework' => 'symfony',
+            'symfony_kernel_version' => Kernel::VERSION,
+            'symfony_environment' => 'testEnv',
+            'symfony_debug' => false,
+        ], $tags);
     }
 }

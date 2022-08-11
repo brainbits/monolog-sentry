@@ -21,15 +21,18 @@ use const PHP_VERSION;
 
 final class SentryFactory
 {
-    public function __construct(private readonly LoggerInterface $logger, string $symfonyEnv, bool $symfonyDebug)
-    {
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        private readonly string $symfonyEnv,
+        private readonly bool $symfonyDebug,
+    ) {
     }
 
     /**
      * @param string[] $inAppInclude
      * @param string[] $inAppExclude
      * @param string[] $prefixes
-     * @param string[] $tags
+     * @param mixed[]  $tags
      */
     public function create(
         ?string $dsn,
@@ -56,16 +59,20 @@ final class SentryFactory
             ],
         ]);
 
+        $symfonyEnv = $this->symfonyEnv;
+        $symfonyDebug = $this->symfonyDebug;
+
         $hub = SentrySdk::getCurrentHub();
-        $hub->configureScope(static function (Scope $scope) use ($tags): void {
+        $hub->configureScope(static function (Scope $scope) use ($tags, $symfonyEnv, $symfonyDebug): void {
+            // @phpstan-ignore-next-line
             $scope->setTags([
                 'php_uname' => PHP_OS,
                 'php_sapi' => PHP_SAPI,
                 'php_version' => PHP_VERSION,
                 'framework' =>  'symfony',
                 'symfony_kernel_version' => Kernel::VERSION,
-                'symfony_environment' => '%kernel.environment%',
-                'symfony_debug' => '%kernel.debug%',
+                'symfony_environment' => $symfonyEnv,
+                'symfony_debug' => $symfonyDebug,
             ] + ($tags ?? []));
         });
 
