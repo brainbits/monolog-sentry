@@ -9,12 +9,12 @@ use PHPUnit\Framework\MockObject\MockObject; // phpcs:ignore SlevomatCodingStand
 use PHPUnit\Framework\TestCase;
 use Sentry\State\HubInterface;
 use Sentry\UserDataBag;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\InMemoryUser;
 
 /**
