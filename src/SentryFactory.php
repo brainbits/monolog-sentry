@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brainbits\MonologSentry;
 
 use Psr\Log\LoggerInterface;
+use Sentry\ClientBuilder;
 use Sentry\Integration\EnvironmentIntegration;
 use Sentry\Integration\FrameContextifierIntegration;
 use Sentry\Integration\RequestIntegration;
@@ -12,8 +13,6 @@ use Sentry\SentrySdk;
 use Sentry\State\HubInterface;
 use Sentry\State\Scope;
 use Symfony\Component\HttpKernel\Kernel;
-
-use function Sentry\init;
 
 use const PHP_OS;
 use const PHP_SAPI;
@@ -35,15 +34,15 @@ final class SentryFactory
      * @param mixed[]  $tags
      */
     public function create(
-        ?string $dsn,
-        ?string $environment = null,
-        ?string $release = null,
-        ?array $inAppInclude = null,
-        ?array $inAppExclude = null,
-        ?array $prefixes = null,
-        ?array $tags = null,
+        string|null $dsn,
+        string|null $environment = null,
+        string|null $release = null,
+        array|null $inAppInclude = null,
+        array|null $inAppExclude = null,
+        array|null $prefixes = null,
+        array|null $tags = null,
     ): HubInterface {
-        init([
+        $clientBuilder = ClientBuilder::create([
             'dsn' => $dsn ?: null,
             'environment' => $environment, // I.e.: staging, testing, production, etc.
             'in_app_include' => $inAppInclude ?? [],
@@ -58,6 +57,10 @@ final class SentryFactory
                 new FrameContextifierIntegration($this->logger),
             ],
         ]);
+
+        $clientBuilder->setLogger($this->logger);
+
+        SentrySdk::init()->bindClient($clientBuilder->getClient());
 
         $symfonyEnv = $this->symfonyEnv;
         $symfonyDebug = $this->symfonyDebug;
