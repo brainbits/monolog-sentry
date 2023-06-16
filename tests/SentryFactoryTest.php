@@ -27,9 +27,7 @@ use const PHP_OS;
 use const PHP_SAPI;
 use const PHP_VERSION;
 
-/**
- * @covers \Brainbits\MonologSentry\SentryFactory
- */
+/** @covers \Brainbits\MonologSentry\SentryFactory */
 final class SentryFactoryTest extends TestCase
 {
     public function testClientHasExpectedServices(): void

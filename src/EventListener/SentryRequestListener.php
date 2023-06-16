@@ -12,18 +12,14 @@ use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Event\TerminateEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-final class SentryRequestListener implements EventSubscriberInterface
+final readonly class SentryRequestListener implements EventSubscriberInterface
 {
-    private HubInterface $hub;
-    private LoggerInterface $logger;
-    private bool $logInternalServerError;
-
     /** @phpstan-ignore-next-line */
-    public function __construct(HubInterface $hub, LoggerInterface $logger, bool $logInternalServerError = false)
-    {
-        $this->hub = $hub;
-        $this->logger = $logger;
-        $this->logInternalServerError = $logInternalServerError;
+    public function __construct(
+        private HubInterface $hub,
+        private LoggerInterface $logger,
+        private bool $logInternalServerError = false,
+    ) {
     }
 
     public function onKernelController(ControllerEvent $event): void
@@ -63,9 +59,7 @@ final class SentryRequestListener implements EventSubscriberInterface
         }
     }
 
-    /**
-     * @return mixed[]
-     */
+    /** @return mixed[] */
     public static function getSubscribedEvents(): array
     {
         return [

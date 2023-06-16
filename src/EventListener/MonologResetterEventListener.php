@@ -15,7 +15,7 @@ use function assert;
 
 // phpcs:disable Brainbits.Exception.GlobalException.GlobalException
 
-final class MonologResetterEventListener implements EventSubscriberInterface
+final readonly class MonologResetterEventListener implements EventSubscriberInterface
 {
     public function __construct(private LoggerInterface $logger)
     {
@@ -52,9 +52,7 @@ final class MonologResetterEventListener implements EventSubscriberInterface
         $this->logger->reset();
     }
 
-    /**
-     * @return mixed[]
-     */
+    /** @return mixed[] */
     public static function getSubscribedEvents(): array
     {
         return [

@@ -17,9 +17,7 @@ use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\User\InMemoryUser;
 
-/**
- * @covers \Brainbits\MonologSentry\EventListener\SentryUserListener
- */
+/** @covers \Brainbits\MonologSentry\EventListener\SentryUserListener */
 final class SentryUserListenerTest extends TestCase
 {
     use HubExpections;

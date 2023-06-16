@@ -4,7 +4,6 @@ parameters:
         - src
         - tests
     ignoreErrors:
-        - '#Method .* has parameter .* with a nullable type declaration#'
         - '#Method Brainbits\\MonologSentry\\SentryFactory::create\(\) has parameter .* with null as default value#'
     inferPrivatePropertyTypeFromConstructor: true
     excludePaths:

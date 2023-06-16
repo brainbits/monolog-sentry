@@ -17,9 +17,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-/**
- * @covers \Brainbits\MonologSentry\EventListener\SentryRequestListener
- */
+/** @covers \Brainbits\MonologSentry\EventListener\SentryRequestListener */
 final class SentryRequestListenerTest extends TestCase
 {
     use HubExpections;

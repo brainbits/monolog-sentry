@@ -13,9 +13,7 @@ use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Event\WorkerMessageFailedEvent;
 use Symfony\Component\Messenger\Event\WorkerMessageHandledEvent;
 
-/**
- * @covers \Brainbits\MonologSentry\EventListener\MonologResetterEventListener
- */
+/** @covers \Brainbits\MonologSentry\EventListener\MonologResetterEventListener */
 final class MonologResetterEventListenerTest extends TestCase
 {
     use HubExpections;
