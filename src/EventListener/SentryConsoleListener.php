@@ -15,7 +15,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 use function sprintf;
 
-final class SentryConsoleListener implements EventSubscriberInterface
+final readonly class SentryConsoleListener implements EventSubscriberInterface
 {
     public function __construct(private HubInterface $hub, private LoggerInterface $logger)
     {
@@ -86,9 +86,7 @@ final class SentryConsoleListener implements EventSubscriberInterface
         );
     }
 
-    /**
-     * @return mixed[]
-     */
+    /** @return mixed[] */
     public static function getSubscribedEvents(): array
     {
         return [

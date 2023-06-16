@@ -18,9 +18,7 @@ use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
 
-/**
- * @covers \Brainbits\MonologSentry\EventListener\SentryConsoleListener
- */
+/** @covers \Brainbits\MonologSentry\EventListener\SentryConsoleListener */
 final class SentryConsoleListenerTest extends TestCase
 {
     use HubExpections;

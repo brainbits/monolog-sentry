@@ -15,13 +15,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 final class SentryUserListener implements EventSubscriberInterface
 {
-    private HubInterface $hub;
-    private Security $security;
-
-    public function __construct(HubInterface $hub, Security $security)
+    public function __construct(private HubInterface $hub, private Security $security)
     {
-        $this->hub = $hub;
-        $this->security = $security;
     }
 
     public function onKernelRequest(RequestEvent $event): void
@@ -47,9 +42,7 @@ final class SentryUserListener implements EventSubscriberInterface
         );
     }
 
-    /**
-     * @return mixed[]
-     */
+    /** @return mixed[] */
     public static function getSubscribedEvents(): array
     {
         return [
