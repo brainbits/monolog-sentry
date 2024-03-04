@@ -49,8 +49,8 @@ final class SentryFactory
             'in_app_exclude' => $inAppExclude ?? [],
             'prefixes' => $prefixes ?? [],
             'release' => $release,
+            'attach_stacktrace' => false,
             'default_integrations' => false,
-            'send_attempts' => 1,
             'integrations' => [
                 new RequestIntegration(),
                 new EnvironmentIntegration(),
