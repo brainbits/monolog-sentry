@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brainbits\MonologSentryTests\EventListener;
 
 use Brainbits\MonologSentry\EventListener\SentryRequestListener;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject; // phpcs:ignore SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -17,7 +18,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-/** @covers \Brainbits\MonologSentry\EventListener\SentryRequestListener */
+#[CoversClass(SentryRequestListener::class)]
 final class SentryRequestListenerTest extends TestCase
 {
     use HubExpections;

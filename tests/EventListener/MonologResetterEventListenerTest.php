@@ -6,6 +6,7 @@ namespace Brainbits\MonologSentryTests\EventListener;
 
 use Brainbits\MonologSentry\EventListener\MonologResetterEventListener;
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use stdClass;
@@ -13,7 +14,7 @@ use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Event\WorkerMessageFailedEvent;
 use Symfony\Component\Messenger\Event\WorkerMessageHandledEvent;
 
-/** @covers \Brainbits\MonologSentry\EventListener\MonologResetterEventListener */
+#[CoversClass(MonologResetterEventListener::class)]
 final class MonologResetterEventListenerTest extends TestCase
 {
     use HubExpections;

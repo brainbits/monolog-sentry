@@ -6,6 +6,7 @@ namespace Brainbits\MonologSentryTests\EventListener;
 
 use Brainbits\MonologSentry\EventListener\SentryConsoleListener;
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject; // phpcs:ignore SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -18,7 +19,7 @@ use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
 
-/** @covers \Brainbits\MonologSentry\EventListener\SentryConsoleListener */
+#[CoversClass(SentryConsoleListener::class)]
 final class SentryConsoleListenerTest extends TestCase
 {
     use HubExpections;

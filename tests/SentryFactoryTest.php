@@ -5,20 +5,18 @@ declare(strict_types=1);
 namespace Brainbits\MonologSentryTests;
 
 use Brainbits\MonologSentry\SentryFactory;
-use Http\Client\Common\PluginClient;
 use Nyholm\NSA;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Sentry\Client;
 use Sentry\Dsn;
+use Sentry\HttpClient\HttpClient;
 use Sentry\Options;
 use Sentry\SentrySdk;
 use Sentry\State\Layer;
 use Sentry\Transport\HttpTransport;
-use Sentry\Transport\NullTransport;
-use Symfony\Component\HttpClient\HttplugClient;
 use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 use function assert;
 use function is_array;
@@ -27,7 +25,7 @@ use const PHP_OS;
 use const PHP_SAPI;
 use const PHP_VERSION;
 
-/** @covers \Brainbits\MonologSentry\SentryFactory */
+#[CoversClass(SentryFactory::class)]
 final class SentryFactoryTest extends TestCase
 {
     public function testClientHasExpectedServices(): void
@@ -67,13 +65,7 @@ final class SentryFactoryTest extends TestCase
         self::assertSame(['_projectDir'], $options->getPrefixes());
 
         $pluginClient = NSA::getProperty($transport, 'httpClient');
-        self::assertInstanceOf(PluginClient::class, $pluginClient);
-
-        $httplugClient = NSA::getProperty($pluginClient, 'client');
-        self::assertInstanceOf(HttplugClient::class, $httplugClient);
-
-        $httpClient = NSA::getProperty($httplugClient, 'client');
-        self::assertInstanceOf(HttpClientInterface::class, $httpClient);
+        self::assertInstanceOf(HttpClient::class, $pluginClient);
 
         $hub = SentrySdk::getCurrentHub();
         $stack = NSA::getProperty($hub, 'stack');
@@ -108,7 +100,7 @@ final class SentryFactoryTest extends TestCase
         self::assertInstanceOf(Client::class, $client);
 
         $transport = NSA::getProperty($client, 'transport');
-        self::assertInstanceOf(NullTransport::class, $transport);
+        self::assertInstanceOf(HttpTransport::class, $transport);
 
         $options = $client->getOptions();
         self::assertInstanceOf(Options::class, $options);
