@@ -19,6 +19,7 @@ jobs:
         dependencies: ["lowest", "highest"]
         php-version:
           - "8.2"
+          - "8.3"
 
     steps:
       - name: "Checkout"
