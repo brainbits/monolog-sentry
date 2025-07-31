@@ -12,7 +12,6 @@ use Psr\Log\LoggerInterface;
 use Sentry\Client;
 use Sentry\Dsn;
 use Sentry\HttpClient\HttpClient;
-use Sentry\Options;
 use Sentry\SentrySdk;
 use Sentry\State\Layer;
 use Sentry\Transport\HttpTransport;
@@ -103,7 +102,6 @@ final class SentryFactoryTest extends TestCase
         self::assertInstanceOf(HttpTransport::class, $transport);
 
         $options = $client->getOptions();
-        self::assertInstanceOf(Options::class, $options);
 
         self::assertNull($options->getDsn());
 

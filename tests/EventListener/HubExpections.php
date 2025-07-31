@@ -30,7 +30,7 @@ trait HubExpections
     ): void {
         $hub->expects($this->atLeastOnce())
             ->method('configureScope')
-            ->with($this->callback(function ($closure) use ($propertyName, $value) {
+            ->with($this->callback(function (callable $closure) use ($propertyName, $value) {
                 $scope = new Scope();
                 $closure($scope);
 

@@ -28,10 +28,10 @@ final class SentryFactory
     }
 
     /**
-     * @param string[] $inAppInclude
-     * @param string[] $inAppExclude
-     * @param string[] $prefixes
-     * @param mixed[]  $tags
+     * @param string[]             $inAppInclude
+     * @param string[]             $inAppExclude
+     * @param string[]             $prefixes
+     * @param array<string, mixed> $tags
      */
     public function create(
         string|null $dsn,
@@ -42,21 +42,45 @@ final class SentryFactory
         array|null $prefixes = null,
         array|null $tags = null,
     ): HubInterface {
-        $clientBuilder = ClientBuilder::create([
-            'dsn' => $dsn ?: null,
-            'environment' => $environment, // I.e.: staging, testing, production, etc.
-            'in_app_include' => $inAppInclude ?? [],
-            'in_app_exclude' => $inAppExclude ?? [],
-            'prefixes' => $prefixes ?? [],
-            'release' => $release,
-            'attach_stacktrace' => false,
-            'default_integrations' => false,
-            'integrations' => [
-                new RequestIntegration(),
-                new EnvironmentIntegration(),
-                new FrameContextifierIntegration($this->logger),
+        return $this->createFromArray(
+            [
+                'dsn' => $dsn ?: null,
+                'environment' => $environment, // I.e.: staging, testing, production, etc.
+                'in_app_include' => $inAppInclude ?? [],
+                'in_app_exclude' => $inAppExclude ?? [],
+                'prefixes' => $prefixes ?? [],
+                'release' => $release,
+                'attach_stacktrace' => false,
+                'default_integrations' => false,
+                'integrations' => [
+                    new RequestIntegration(),
+                    new EnvironmentIntegration(),
+                    new FrameContextifierIntegration($this->logger),
+                ],
             ],
-        ]);
+            $tags,
+        );
+    }
+
+    /**
+     * @param array<string, mixed> $options
+     * @param array<string, mixed> $tags
+     */
+    public function createFromArray(array $options, array|null $tags = null): HubInterface
+    {
+        $options['dsn'] ??= null;
+        $options['in_app_include'] ??= [];
+        $options['in_app_exclude'] ??= [];
+        $options['prefixes'] ??= [];
+        $options['attach_stacktrace'] ??= false;
+        $options['default_integrations'] ??= false;
+        $options['integrations'] ??= [
+            new RequestIntegration(),
+            new EnvironmentIntegration(),
+            new FrameContextifierIntegration($this->logger),
+        ];
+
+        $clientBuilder = ClientBuilder::create($options);
 
         $clientBuilder->setLogger($this->logger);
 

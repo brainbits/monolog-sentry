@@ -32,6 +32,22 @@ services:
                 foo: bar
             $logger: '@logger'
 
+    # or
+    
+    Sentry\State\HubInterface:
+        factory: ['@Brainbits\MonologSentry\SentryFactory', 'createFromOptions']
+        arguments:
+            $options:
+                dsn: '%env(SENTRY_DSN)%'
+                environment: '%env(SENTRY_ENVIRONMENT)%'
+                inAppInclude: ['%kernel.project_dir%/src']
+                inAppExclude: ['%kernel.cache_dir%', '%kernel.project_dir%/vendor']
+                prefixes: ['%kernel.project_dir%']
+                release: 'web-%app_version%'
+                tags:
+                    foo: bar
+                logger: '@logger'
+
     Controlling\Sentry\Sentry\SentryHandler: ~
 
     Controlling\Sentry\EventListener\SentryConsoleListener: ~

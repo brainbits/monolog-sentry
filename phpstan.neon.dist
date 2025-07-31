@@ -3,14 +3,12 @@ parameters:
     paths:
         - src
         - tests
-    ignoreErrors:
-        - '#Method Brainbits\\MonologSentry\\SentryFactory::create\(\) has parameter .* with null as default value#'
     inferPrivatePropertyTypeFromConstructor: true
     excludePaths:
-        - src/Kernel.php
-        - src/Sentry/SentryHandler.php
-        - tests/Sentry/SentryHandlerTest.php
+        - src/SentryHandler.php
     ergebnis:
+        noParameterWithNullDefaultValue:
+              enabled: false
         noParameterWithNullableTypeDeclaration:
               enabled: false
         noExtends:
@@ -23,4 +21,3 @@ includes:
     - vendor/ergebnis/phpstan-rules/rules.neon
     - vendor/phpstan/phpstan-phpunit/extension.neon
     - vendor/phpstan/phpstan-phpunit/rules.neon
-    - vendor/thecodingmachine/phpstan-strict-rules/phpstan-strict-rules.neon
