@@ -1,0 +1,28 @@
+version: 2
+updates:
+  - commit-message:
+      include: "scope"
+      prefix: "fix"
+    directory: "/"
+    labels:
+      - "dependencies"
+      - "composer"
+    open-pull-requests-limit: 10
+    package-ecosystem: "composer"
+    schedule:
+      interval: "weekly"
+    versioning-strategy: "increase"
+    groups:
+      minor:
+        update-types: ["minor", "patch"]
+
+  - commit-message:
+      include: "scope"
+      prefix: "ci"
+    directory: "/"
+    labels:
+      - "dependencies"
+    open-pull-requests-limit: 10
+    package-ecosystem: "github-actions"
+    schedule:
+      interval: "weekly"
