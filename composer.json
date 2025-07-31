@@ -7,7 +7,7 @@
         "php": "^8.3",
         "ext-iconv": "*",
         "bgalati/monolog-sentry-handler": "^2.1",
-        "jean85/pretty-package-versions": "^2.0",
+        "jean85/pretty-package-versions": "^2.1",
         "monolog/monolog": "^3.0",
         "nyholm/psr7": "^1.2.1",
         "psr/log": "^3.0",
