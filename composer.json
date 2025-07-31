@@ -12,7 +12,7 @@
         "psr/log": "^3.0",
         "sentry/sentry": "^4.6.1",
         "symfony/config": "^7.2",
-        "symfony/dependency-injection": "^7.2",
+        "symfony/dependency-injection": "^7.3",
         "symfony/http-client": "^7.2",
         "symfony/http-kernel": "^7.2",
         "symfony/yaml": "^7.2"
