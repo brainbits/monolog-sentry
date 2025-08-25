@@ -10,7 +10,7 @@
         "monolog/monolog": "^3.0",
         "nyholm/psr7": "^1.2.1",
         "psr/log": "^3.0",
-        "sentry/sentry": "^4.6.1",
+        "sentry/sentry": "^4.15.0",
         "symfony/config": "^7.2",
         "symfony/dependency-injection": "^7.2",
         "symfony/http-client": "^7.2",
