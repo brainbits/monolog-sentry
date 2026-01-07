@@ -7,15 +7,15 @@
         "php": "^8.3",
         "ext-iconv": "*",
         "bgalati/monolog-sentry-handler": "^2.1",
-        "monolog/monolog": "^3.0",
-        "nyholm/psr7": "^1.2.1",
+        "monolog/monolog": "^3.10",
+        "nyholm/psr7": "^1.8",
         "psr/log": "^3.0",
-        "sentry/sentry": "^4.6.1",
-        "symfony/config": "^7.2",
-        "symfony/dependency-injection": "^7.2",
-        "symfony/http-client": "^7.2",
-        "symfony/http-kernel": "^7.2",
-        "symfony/yaml": "^7.2"
+        "sentry/sentry": "^4.19",
+        "symfony/config": "^7.4 | ^8.0",
+        "symfony/dependency-injection": "^7.4 | ^8.0",
+        "symfony/http-client": "^7.4 | ^8.0",
+        "symfony/http-kernel": "^7.4 | ^8.0",
+        "symfony/yaml": "^7.4 | ^8.0"
     },
     "require-dev": {
         "brainbits/phpcs-standard": "^8.0",
@@ -24,10 +24,10 @@
         "phpstan/phpstan": "^2.1.21",
         "phpstan/phpstan-phpunit": "^2.0.7",
         "phpunit/phpunit": "^12.2.9",
-        "symfony/console": "^7.2",
-        "symfony/http-foundation": "^7.2",
-        "symfony/messenger": "^7.2",
-        "symfony/security-bundle": "^7.2"
+        "symfony/console": "^7.4 | ^8.0",
+        "symfony/http-foundation": "^7.4 | ^8.0",
+        "symfony/messenger": "^7.4 | ^8.0",
+        "symfony/security-bundle": "^7.4 | ^8.0"
     },
     "suggest": {
         "symfony/console": "For the console listener",
